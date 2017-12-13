@@ -5,7 +5,7 @@ function decimation(N,input_alignment, input_weights, outdir)
 	r = 0.3; % Fraction (approximate) of decimated couplings at each round.
 	lambda = 0.01; % Regularization for plm.
 	theta = 0.2; % Reweighting threshold. -- Unused here
-	ncores = 3; % Number of cores each plm run should use. 
+	ncores = 1; % Number of cores each plm run should use. 
 	
 	% Creating out directory
 	system(sprintf('mkdir -p %s',outdir));
