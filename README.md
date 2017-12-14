@@ -1,6 +1,20 @@
 # plmDCA_decimation
 Research script -- 
 
+--------------------------------------
+pseudolikelihood maximization DCA (modified) code used here was taken from 
+
+ 	M. Ekeberg, C. Lövkvist, Y. Lan, M. Weigt, E. Aurell, Improved contact
+ 	prediction in proteins: Using pseudolikelihoods to infer Potts models, Phys. Rev. E 87, 012707 (2013)
+  
+  and
+
+	M. Ekeberg, T. Hartonen, E. Aurell, Fast pseudolikelihood
+	maximization for direct-coupling analysis of protein structure
+	from many homologous amino-acid sequences, J. Comput. Phys. 276, 341-356 (2014)
+  
+--------------------------------------
+
 $./main.sh to start
 
 main.sh simply starts matlab and launches main\_script.m
