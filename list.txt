@@ -1,2 +1,2 @@
-/home/barratp/Documents/Labo/Code/Matlab/DCA/decimation_daniele/alignments/PF00014_raw.fasta
-/home/barratp/Documents/Labo/Code/Matlab/DCA/decimation_daniele/alignments/PF00071_raw.fasta
+/home/barratp/Documents/Labo/Code/Matlab/DCA/plmDCA_decimation/alignments/PF00014_raw.fasta
+/home/barratp/Documents/Labo/Code/Matlab/DCA/plmDCA_decimation/alignments/PF00071_raw.fasta

@@ -1,7 +1,7 @@
 function decimation(N,input_alignment, input_weights, outdir)
 
 	q = 21;
-	Nit = 3; % Max. number of decimation rounds
+	Nit = 1; % Max. number of decimation rounds
 	r = 0.3; % Fraction (approximate) of decimated couplings at each round.
 	lambda = 0.01; % Regularization for plm.
 	theta = 0.2; % Reweighting threshold. -- Unused here
@@ -50,4 +50,18 @@ function decimation(N,input_alignment, input_weights, outdir)
 		parameters_file = sprintf('%s/plmInf_%d_mat.txt',outdir,s);
 		plmDCA_asymmetric_mask(input_alignment,scores_file,parameters_file,mask_file,theta,ncores,lambda,input_weights);
 	end
+
+	%% Site-specific decimation
+	system(sprintf('./sources/script_mask.sh %s/score0.txt %d %d',outdir, N, floor(N/2)));
+	system(sprintf('mv mask_t20.txt %s ; mv mask_tLh.txt %s',outdir,outdir));
+	% t20
+	scores_file = sprintf('%s/score_t20.txt',outdir);
+	parameters_file = sprintf('%s/plmInf_t20_mat.txt',outdir);
+	mask_file = 'mask_t20.txt';
+	plmDCA_asymmetric_mask(input_alignment,scores_file,parameters_file,mask_file,theta,ncores,lambda,input_weights);
+	% tL2
+	scores_file = sprintf('%s/score_tLh.txt',outdir);
+	parameters_file = sprintf('%s/plmInf_tLh_mat.txt',outdir);
+	mask_file = 'mask_tLh.txt';
+	plmDCA_asymmetric_mask(input_alignment,scores_file,parameters_file,mask_file,theta,ncores,lambda,input_weights);
 end
