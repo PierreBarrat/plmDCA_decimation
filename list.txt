@@ -1,2 +1,1 @@
 /home/barratp/Documents/Labo/Code/Matlab/DCA/plmDCA_decimation/alignments/PF00014_raw.fasta
-/home/barratp/Documents/Labo/Code/Matlab/DCA/plmDCA_decimation/alignments/PF00071_raw.fasta

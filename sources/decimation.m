@@ -1,8 +1,8 @@
 function decimation(N,input_alignment, input_weights, outdir)
 
 	q = 21;
-	Nit = 1; % Max. number of decimation rounds
-	r = 0.3; % Fraction (approximate) of decimated couplings at each round.
+	Nit = 100; % Max. number of decimation rounds
+	r = 0.025; % Fraction (approximate) of decimated couplings at each round.
 	lambda = 0.01; % Regularization for plm.
 	theta = 0.2; % Reweighting threshold. -- Unused here
 	ncores = 1; % Number of cores each plm run should use. 

@@ -1,0 +1,47 @@
+#!/bin/bash
+# Translates .txt file created by saving matrices J and h using matlab to a format readable by Matteo's MCMC code
+
+if [ "$1" == "-h" ]; then
+	echo " " 
+ 	echo "Translates .txt file containing matrix J and vector h (dlmwrite from Matlab) to file for MCMC code with format-- J i j alpha beta val // h i alpha val --"
+ 	echo " -- Usage: `basename $0` [Matlab_file.txt MCMC_file.txt N q] -- "
+ 	echo " "
+ 	exit 0
+fi
+
+mat_file=$1
+MCMC_file=$2
+touch temp_J_file
+touch temp_h_file
+touch sort_J
+touch sort_h
+N=$3
+q=$4
+
+gawk '
+BEGIN{N='$3'; q='$4';
+	# printf "" > "'$MCMC_file'"
+	i=0;j=0;alpha=0;beta=0; count_tot=0;}
+NR <= N*q {	beta=0;j=0;	
+				for(s=1;s<=NF;s++){
+					if(i<j){printf("J %d %d %d %d %s\n",i,j,alpha,beta,$s)>>"temp_J_file"}
+					# printf("i=%d j=%d alpha=%d beta=%d\n",i,j,alpha,beta)
+					beta++;
+					if(beta>q-1){beta=0;j++;}
+				}
+				alpha++;
+				if(alpha>q-1){alpha=0;i++;}
+				} 
+NR > N*q {i=0;alpha=0;
+			for(s=1;s<=NF;s++){ printf("h %d %d %s\n",i,alpha,$s)>>"temp_h_file";alpha++;if(alpha>q-1){alpha=0;i++;}}
+		} 
+' $mat_file
+
+sort -n -k 2,2 -k 3,3 -k 4,4 -k 5,5 temp_J_file > sort_J
+sort -n -k 2,2 -k 3,3 temp_h_file > sort_h
+cat sort_J sort_h > $MCMC_file
+
+rm temp_h_file
+rm temp_J_file
+rm sort_J
+rm sort_h

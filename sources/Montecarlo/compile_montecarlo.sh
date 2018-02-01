@@ -1,0 +1,1 @@
+g++ -O3 do_montecarlo.cpp graph1.cpp graph2.cpp graph3.cpp graphs.cpp gasdev.cpp -o ../do_montecarlo
