@@ -34,6 +34,7 @@ function plmDCA_asymmetric_mask(fastafile_q,outputfile_scores, outputfile_parame
     if (isstr(nr_of_cores))
         nr_of_cores = str2num(nr_of_cores);
     end
+    fprintf('Hello world\n')
 
 % Minimization options
     options.method='lbfgs'; %Minimization scheme. Default: 'lbfgs', 'cg' for conjugate gradient (use 'cg' if out of RAM).

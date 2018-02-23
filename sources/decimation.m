@@ -1,7 +1,7 @@
 function decimation(N,input_alignment, input_weights, outdir)
 
 	q = 21;
-	Nit = 100; % Max. number of decimation rounds
+	Nit = 41; % Max. number of decimation rounds
 	r = 0.025; % Fraction (approximate) of decimated couplings at each round.
 	lambda = 0.01; % Regularization for plm.
 	theta = 0.2; % Reweighting threshold. -- Unused here

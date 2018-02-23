@@ -1,6 +1,7 @@
 #!/bin/bash
 
-steps=(0 5 10 15 20 25 30 35 40)
+# steps=(0 5 10 15 20 25 30 35 40)
+steps=(`seq 0 1 40`) 
 
 while read f; do
 	echo ""
@@ -11,7 +12,7 @@ while read f; do
 	echo "Length of sequence: $lseq"
 	cd samples
 	for s in ${steps[*]}; do
-		echo "Decimation: $s"
+		echo "Step: $s"
 		st="$(date -u +%s)" 
 		../../sources/graph_mat_to_MCMC ../decimation_results/plmInf_$s"_mat.txt" plmInf_$s"_MCMC.txt" $lseq 21
 		../../sources/do_montecarlo -n $lseq -q 21 -t 5000 -m 5000 -s $s < plmInf_$s"_MCMC.txt" &> /dev/null

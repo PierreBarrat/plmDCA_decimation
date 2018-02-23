@@ -53,7 +53,7 @@ function  [Jo,ho] = switch_gauge(Ji,hi,mode,q,wt01)
 		for i = 1:N
 			for j = (i+1):N
 				Jo((i-1)*q+(1:q),(j-1)*q+(1:q)) = Ji((i-1)*q+(1:q),(j-1)*q+(1:q)) - repmat(mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q)),1),q,1) - repmat(mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q)),2),1,q) + mean(mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q))));
-				ho((i-1)*q+(1:q)) = ho((i-1)*q+(1:q)) + mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q)),2)' - mean(mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q))));
+				% ho((i-1)*q+(1:q)) = ho((i-1)*q+(1:q)) + mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q)),2)' - mean(mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q))));
 				% ho((i-1)*q+(1:q)) = hi((i-1)*q+(1:q)) + mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q)),2)' - mean(mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q))));
 				% ho((j-1)*q+(1:q)) = hi((i-1)*q+(1:q)) + mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q)),1);
 			end
@@ -62,11 +62,13 @@ function  [Jo,ho] = switch_gauge(Ji,hi,mode,q,wt01)
 
 		for i = 1:N
 			ho((i-1)*q+(1:q)) = hi((i-1)*q+(1:q));
-			% for j = 1:N
-			% 	ho((i-1)*q+(1:q)) = ho((i-1)*q+(1:q)) + mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q)),2)' - mean(mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q))));
-			% end
+			for j = 1:N
+				ho((i-1)*q+(1:q)) = ho((i-1)*q+(1:q)) + mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q)),2)' - mean(mean(Ji((i-1)*q+(1:q),(j-1)*q+(1:q))));
+			end
 			ho((i-1)*q+(1:q)) = ho((i-1)*q+(1:q)) - mean(hi((i-1)*q+(1:q)));
 		end
+		Jo = Ji
+		
 
 	elseif strcmpi(mode,'wt')
 		N = max(size(hi))/q;
