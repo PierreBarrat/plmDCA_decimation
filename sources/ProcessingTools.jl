@@ -210,6 +210,23 @@ function ReadGraphStruct(parameters::String, L::Int64, q::Int64; format="mat",ga
 end
 
 """
+    ReadGraph(parameters::String, L::Int64, q::Int64; format="mat",gauge=true)
+"""
+function ReadGraph(parameters::String, L::Int64, q::Int64; format="mat",gauge=true)
+    if format == "MCMC"
+        (J,h) = ReadGraphMCMC(parameters, L, q)
+    elseif format == "mat"
+        (J,h) = ReadGraphMat(parameters, q)
+    else
+        error("ModelTools.jl - ReadGraph: Incorrect format string.\n")
+    end
+    if gauge
+        SwitchGauge!(J,h,L,q)
+    end
+    return (J,h)
+end
+
+"""
     ReadGraphMat(parameters::String, q::Int64)
 
 Reads potts parameters in dlm format (ie stored as a matrix, with h being the last line).  
@@ -254,4 +271,38 @@ function SwitchGauge!(J::Array{Float64,2}, h::Array{Float64,1}, L::Int64, q::Int
         end
     end
     return ()
+end
+
+"""
+    PseudoLikelihood(Y::Array{Int64,2}, J::Array{Float64,2}, h::Array{Float64,1}, q::Int64)
+
+Y should be the transpose of the actual alignment. 
+"""
+function PseudoLikelihood(Y::Array{Int64,2}, w::Array{Float64,1}, J::Array{Float64,2}, h::Array{Float64,1}, q::Int64)
+    (L,M) = size(Y)
+    PL = 0.
+    Z = 0.
+    p = 0.
+    E = 0.
+    for m in 1:M
+        for i in 1:L
+            # Local partition function
+            Z = 0.
+            for a in 1:q
+                E = 0.
+                for j in 1:L
+                    E += J[(j-1)*q+Y[j,m], (i-1)*q+a] + h[(j-1)*q+Y[j,m]]
+                end
+                Z += exp(E)
+            end
+            # Local likelihood of data
+            E = 0.
+            for j in 1:L
+                E += J[(j-1)*q+Y[j,m], (i-1)*q+Y[i,m]] + h[(j-1)*q+Y[j,m]]
+            end
+            PL += log(exp(E)/Z) * w[m]
+        end
+    end
+    PL = PL/sum(w)
+    return PL
 end
